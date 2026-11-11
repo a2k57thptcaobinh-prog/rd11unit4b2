@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reading 11 – Bài 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap&subset=vietnamese" rel="stylesheet">
+<style>
+:root{--bg1:#dfe6ff;--bg2:#f4f0ff;--card:#ffffff;--tx:#1d2150;--mut:#5d6396;--ink:#1d2150;
+--blue:#3d5cff;--blueD:#2339c9;--sun:#ffc83d;--sunD:#d99a00;--ok:#1fb673;--okD:#12835a;--bad:#ff5d6c;
+--line:#c9d0f5;--sel:#eaf0ff;--r:18px;--disp:"Baloo 2","Nunito",system-ui,sans-serif;--body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg1:#12143a;--bg2:#1a1650;--card:#262a63;--tx:#eef0ff;--mut:#aab0e6;--ink:#0b0d2a;--line:#3b4190;--sel:#33398a;--blue:#6f86ff;--blueD:#3a4fd6}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--tx);font:600 16px/1.5 var(--body);background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed}
+.hide{display:none!important}
+#top{position:sticky;top:0;z-index:5;padding:10px 14px;background:color-mix(in srgb,var(--bg1) 85%,transparent);backdrop-filter:blur(8px)}
+.tin{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px;font-weight:800}
+.track{flex:1;height:16px;border-radius:99px;background:var(--line);box-shadow:inset 0 3px 0 rgba(0,0,0,.12);overflow:hidden}
+#fill{height:100%;width:0;border-radius:99px;background:linear-gradient(var(--sun),#ffb300);box-shadow:inset 0 -4px 0 var(--sunD);transition:width .35s cubic-bezier(.3,1.4,.5,1)}
+main{max-width:720px;margin:0 auto;padding:14px 14px 56px}
+h1{font:800 28px/1.1 var(--disp);margin:8px 0 14px;letter-spacing:.2px}
+h2{font:800 21px/1.2 var(--disp);margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.mut{color:var(--mut)}.who{margin:0 0 4px;color:var(--mut)}
+.card{background:var(--card);border-radius:var(--r);padding:20px 18px;margin:18px 0;border:3px solid var(--ink);box-shadow:0 8px 0 var(--ink),0 18px 28px rgba(29,33,80,.18)}
+.num{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blueD);font:800 20px var(--disp)}
+.hero{text-align:center;padding-top:26px}
+.hero .bk{font-size:50px;line-height:1;margin-bottom:8px}
+input[type=text]{display:block;width:100%;max-width:340px;margin:16px auto;padding:13px 16px;font:700 17px var(--body);color:var(--tx);background:var(--sel);border:3px solid var(--ink);border-radius:14px;box-shadow:inset 0 4px 0 rgba(0,0,0,.1)}
+input[type=text]:focus{outline:3px solid var(--sun);outline-offset:2px}
+.key{font:800 17px var(--disp);cursor:pointer;color:#fff;background:var(--blue);border:3px solid var(--ink);border-radius:14px;padding:11px 22px;box-shadow:0 6px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.key:hover{filter:brightness(1.06)}.key:active:not(:disabled){transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.key:disabled{opacity:.55;cursor:not-allowed}.key.big{font-size:20px;padding:13px 30px}.go2{background:var(--ok)}
+.err{color:var(--bad);font-weight:800;margin:10px 0 0}
+.play{display:flex;align-items:center;gap:14px;width:100%;margin:0 0 8px;padding:12px 14px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;background:var(--sun);border:3px solid var(--ink);border-radius:20px;box-shadow:0 6px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.play:active:not(:disabled){transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.play:disabled{background:#d8d8e6;cursor:not-allowed}
+.disc{position:relative;flex:none;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:inset 0 -5px 0 rgba(0,0,0,.14)}
+.eq{position:absolute;inset:0;display:none;justify-content:center;align-items:center;gap:3px}
+.eq i{width:5px;background:var(--ink)}
+.play.on .eq{display:flex;background:#fff;border-radius:50%}.play.on svg{display:none}
+.play.on .eq i{animation:bob .7s ease-in-out infinite}.eq i:nth-child(2){animation-delay:.12s}.eq i:nth-child(3){animation-delay:.24s}.eq i:nth-child(4){animation-delay:.36s}
+.pt b{display:block;font:800 19px/1.1 var(--disp)}.pt small{font:700 14px var(--body)}
+fieldset.q{border:0;margin:18px 0 0;padding:0;min-width:0}
+legend{padding:0;margin-bottom:8px;font-weight:800;display:flex;gap:10px;align-items:flex-start}
+.qn{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font:800 14px var(--disp);margin-top:1px}
+.opts{display:grid;gap:10px}.opts.two{grid-template-columns:1fr 1fr}.opts.five{grid-template-columns:repeat(5,1fr)}.opts.five label.o{justify-content:center;padding:10px 4px}
+.pic{display:block;width:100%;height:auto;margin:6px 0 4px;background:#fff;border:3px solid var(--ink);border-radius:12px}
+.cap{display:grid;grid-template-columns:repeat(3,1fr);margin:0 0 8px;text-align:center;font:800 16px var(--disp)}
+.ins{margin:-6px 0 12px;color:var(--mut);font-weight:700}
+input.fill{max-width:none;margin:8px 0 0;font-size:16px}
+label.o{position:relative;display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;background:var(--card);border:3px solid var(--ink);border-radius:14px;box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s,background .12s}
+label.o input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.ky{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--sel);border:2px solid var(--ink);font:800 15px var(--disp)}
+label.o:hover{background:var(--sel)}
+label.o:has(input:checked){transform:translateY(4px);box-shadow:0 1px 0 var(--ink);background:var(--blue);color:#fff}
+label.o:has(input:checked) .ky{background:var(--sun);color:var(--ink)}
+label.o:has(input:focus-visible){outline:3px solid var(--sun);outline-offset:3px}
+.sub{text-align:center;margin-top:26px}.sub .err{display:block}
+.res .score{display:inline-flex;align-items:baseline;justify-content:center;padding:8px 28px;margin:0 0 12px;background:var(--sun);color:var(--ink);border:3px solid var(--ink);border-radius:24px;box-shadow:0 7px 0 var(--ink);font-family:var(--disp)}
+.score b{font-size:68px;line-height:1}.score span{font-size:28px;font-weight:800}
+.rl{display:flex;justify-content:space-between;gap:12px;max-width:380px;margin:8px auto 0;padding:10px 14px;background:var(--sel);border-radius:12px;border:2px solid var(--ink)}
+@media (max-width:480px){.opts.two{grid-template-columns:1fr 1fr}h1{font-size:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.passage{margin:6px 0 12px;padding:12px 14px;background:var(--sel);border:2px solid var(--ink);border-radius:12px;font-weight:600}
+.passage h3{margin:0 0 6px;font:800 17px/1.2 var(--disp)}.passage p{margin:0}
+.heads{list-style:none;padding:0;margin:0 0 6px;display:grid;gap:8px}
+.heads li{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:var(--card);font-weight:800}
+.heads small{display:block;color:var(--mut);font-weight:700}
+.extra{margin:0 0 10px;color:var(--mut);font-weight:700}
+</style></head><body>
+<div id="top" class="hide"><div class="tin"><span>Tiến độ</span><div class="track"><div id="fill"></div></div><span id="pc">0/3 câu</span></div></div>
+<main><h1>Reading 11 – Bài 2</h1><div id="app"></div></main>
+<script>
+// ====== CẤU HÌNH: địa chỉ Firebase Realtime Database (không có dấu / ở cuối) ======
+const DB_URL = "https://nghe12unit4-default-rtdb.asia-southeast1.firebasedatabase.app";
+// Mã lớp: phải trùng với teacher.html. Đổi tên nếu muốn tách lớp / tiết khác nhau
+const CLASS_ID = "lop11_bai2";
+// ================================================================================
+// Chuẩn hóa câu trả lời điền: bỏ hoa/thường, dấu câu, dấu ', "fifty" = 50
+const norm=s=>String(s).toLowerCase().replace(/[’‘`']/g,"").replace(/&/g," and ").replace(/\bfifty\b/g,"50").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+const EX=[{"id": "e1", "no": 2, "title": "Bài 2: ASEAN news (chọn tiêu đề)", "ins": "Read the news items and choose the most suitable headline for each one. There are TWO extra headlines.", "heads": [{"h": "Don't miss this opportunity to represent your country!", "v": "Đừng bỏ lỡ cơ hội này để đại diện cho đất nước của bạn!"}, {"h": "Travelling to ASEAN countries", "v": "Du lịch đến các nước ASEAN"}, {"h": "Equality in sport for ASEAN women", "v": "Bình đẳng trong thể thao cho phụ nữ ASEAN"}, {"h": "Korean and ASEAN students", "v": "Sinh viên Hàn Quốc và ASEAN"}, {"h": "Volunteers needed to take part in cultural exchanges", "v": "Cần tình nguyện viên tham gia giao lưu văn hóa"}], "qs": [{"q": "News item 1", "text": "To raise awareness of ASEAN and promote cultural exchanges between the youths of Korea and ASEAN, the ASEAN-Korea Centre (AKC) regularly organises an ASEAN School Tour Programme. Last week, the AKC welcomed 121 Korean and Asian students from six schools. They learnt about ASEAN members, and discussed why ASEAN was important to Korea, and how to strengthen ASEAN-Korea relations. The students also took part in a variety of cultural activities such as singing traditional songs and making ASEAN posters.", "letters": true, "o": ["Don't miss this opportunity to represent your country!", "Travelling to ASEAN countries", "Equality in sport for ASEAN women", "Korean and ASEAN students", "Volunteers needed to take part in cultural exchanges"], "a": 3}, {"q": "News item 2", "text": "The Ship for Southeast Asian and Japanese Youth Programme (SSEAYP) is looking for participants. Organised by the government of Japan and supported by the governments of Southeast Asia, this journey will last for 50 days and will bring together over 300 youths from ASEAN countries and Japan. Young people will have the opportunity to take part in exciting discussions on current social and youth issues, and eye-opening cultural exchanges. They will also receive training to help them develop problem-solving and leadership skills. The journey starts in Japan and participants travel to five ASEAN countries.", "letters": true, "o": ["Don't miss this opportunity to represent your country!", "Travelling to ASEAN countries", "Equality in sport for ASEAN women", "Korean and ASEAN students", "Volunteers needed to take part in cultural exchanges"], "a": 0}, {"q": "News item 3", "text": "An ASEAN talk show on women in sport took place in December. Its goal was promoting gender equality in and through sport. It featured 10 female sports representatives from 10 ASEAN countries. The talk show also discussed the rights of sports people with disabilities. All participants agreed that women and girls should be given more opportunities to play sports and represent their countries at international events. The talk show was live-streamed on the ASEAN webpage.", "letters": true, "o": ["Don't miss this opportunity to represent your country!", "Travelling to ASEAN countries", "Equality in sport for ASEAN women", "Korean and ASEAN students", "Volunteers needed to take part in cultural exchanges"], "a": 2}]}];
+const $=s=>document.querySelector(s), app=$("#app");
+const TOTAL=EX.reduce((s,e)=>s+e.qs.length,0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SV={".sv":"timestamp"};
+let id,name;
+try{id=localStorage.getItem("lq_id")}catch(e){}
+if(!id){id="s"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);try{localStorage.setItem("lq_id",id)}catch(e){}}
+const url=()=>DB_URL+"/"+CLASS_ID+"/"+id+".json";
+const put=d=>fetch(url(),{method:"PUT",body:JSON.stringify(d)}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()});
+
+function start(){
+  bar(false);app.innerHTML='<section class="card hero"><div class="bk" aria-hidden="true">📖</div><h2>Sẵn sàng đọc chưa?</h2><p class="mut">Bài đọc gồm '+TOTAL+' câu. Đồng hồ chạy khi bạn bấm “Bắt đầu”.</p><input type="text" id="nm" placeholder="Họ và tên của bạn" maxlength="60" autocomplete="name"><button class="key big" id="go">Bắt đầu làm bài</button><p class="err" id="e" role="alert"></p></section>';
+  $("#go").onclick=async()=>{
+    name=$("#nm").value.trim();if(!name){$("#nm").focus();return}
+    try{await put({name,startedAt:SV,status:"doing"});quiz()}
+    catch(e){$("#e").textContent="Chưa kết nối được máy chủ. Nhờ thầy cô kiểm tra lại, rồi thử lại."}
+  };
+}
+function qhtml(e,q,i){
+  const nm=e.id+"-"+i;let body;
+  if(q.fill)body='<input type="text" class="fill" name="'+nm+'" placeholder="Nhập đáp án…" maxlength="60" autocomplete="off" autocapitalize="none" spellcheck="false">';
+  else body='<div class="opts'+(q.letters?' five':'')+'">'+q.o.map((o,k)=>'<label class="o"><input type="radio" name="'+nm+'" value="'+k+'"><span class="ky">'+"ABCDE"[k]+'</span>'+(q.letters?'':'<span>'+esc(o)+'</span>')+'</label>').join('')+'</div>';
+  return '<fieldset class="q"><legend><span class="qn">'+(i+1)+'</span>'+esc(q.q)+'</legend>'+(q.text?'<div class="passage"><p>'+esc(q.text)+'</p></div>':'')+body+'</fieldset>';
+}
+function extra(e){
+  let h='';
+  if(e.heads)h+='<ul class="heads">'+e.heads.map((x,k)=>'<li><span class="ky">'+"ABCDE"[k]+'</span><span>'+esc(x.h)+'<small>'+esc(x.v)+'</small></span></li>').join('')+'</ul>';
+  if(e.passages)h+=e.passages.map(p=>'<div class="passage"><h3>'+esc(p.h)+'</h3><p>'+esc(p.t)+'</p></div>').join('');
+  return h;
+}
+function quiz(){
+  bar(true);
+  app.innerHTML='<p class="who">Học sinh: <b>'+esc(name)+'</b></p>'+EX.map(e=>
+   '<section class="card"><h2><span class="num">'+e.no+'</span>'+esc(e.title.replace(/^Bài \d: /,""))+'</h2><p class="ins">'+esc(e.ins)+'</p>'+extra(e)+
+   e.qs.map((q,i)=>qhtml(e,q,i)).join('')+'</section>').join('')+
+   '<div class="sub"><button class="key big go2" id="sb">Nộp bài</button><span class="err" id="m" role="alert"></span></div>';
+  $("#sb").onclick=submit;
+  app.addEventListener("change",prog);app.addEventListener("input",prog);prog();
+}
+function bar(show){$("#top").classList.toggle("hide",!show)}
+let warned=false;
+function prog(){
+  warned=false;const mm=$("#m");if(mm)mm.textContent="";
+  const n=document.querySelectorAll("input[type=radio]:checked").length+[...document.querySelectorAll("input.fill")].filter(x=>x.value.trim()).length;
+  $("#fill").style.width=(n/TOTAL*100)+"%";$("#pc").textContent=n+"/"+TOTAL+" câu";
+}
+async function submit(){
+  const answers={},scores=[];let total=0,miss=0;
+  EX.forEach(e=>{let s=0;e.qs.forEach((q,i)=>{
+    let ok,v;
+    if(q.fill){const t=document.querySelector('input[name="'+e.id+'-'+i+'"]').value.trim();
+      if(!t)miss++;v=t||"(bỏ trống)";ok=!!t&&q.fill.map(norm).includes(norm(t));}
+    else{const c=document.querySelector('input[name="'+e.id+'-'+i+'"]:checked'),x=c?+c.value:-1;
+      if(x<0)miss++;v=x>=0?(q.letters?"ABCDE"[x]:q.o[x]):"(bỏ trống)";ok=x===q.a;}
+    if(ok)s++;answers[e.id+"_"+(i+1)]={v,ok};});scores.push(s);total+=s});
+  // Không dùng confirm(): trình duyệt chặn hộp thoại khi trang được nhúng trong Google Sites
+  if(miss&&!warned){warned=true;$("#m").textContent="Còn "+miss+" câu chưa trả lời. Bấm Nộp bài lần nữa nếu vẫn muốn nộp.";return}
+  $("#sb").disabled=true;
+  try{
+    const cur=await (await fetch(url())).json();
+    await put({name,startedAt:(cur&&cur.startedAt)||SV,submittedAt:SV,status:"done",answers,scores,total});
+    bar(false);app.innerHTML='<section class="card hero res"><div class="score"><b>'+total+'</b><span>/'+TOTAL+'</span></div><h2>Đã nộp bài, '+esc(name)+'!</h2>'+EX.map((e,i)=>'<p class="rl"><span>'+esc(e.title)+'</span><b>'+scores[i]+'/'+e.qs.length+'</b></p>').join('')+'</section>';
+  }catch(e){$("#sb").disabled=false;$("#m").textContent=(String(e.message)==="401"||String(e.message)==="403"?"Máy chủ từ chối lưu bài (lỗi "+e.message+"). Báo thầy cô kiểm tra Rules của Firebase.":"Chưa gửi được bài ("+e.message+"). Kiểm tra mạng rồi bấm Nộp bài lại.")}
+}
+start();
+</script></body></html>
